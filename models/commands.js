@@ -29,22 +29,3 @@ program
     })
 
 program.parse(process.argv);
-
-// commands
-const commands = {
-
-    'list': {
-        'index': index,
-        'pendent':read,
-        'all': read,
-    },
-
-    'add':{
-        'index': index,
-        'task':create,
-    },
-    'change': {
-        'index': index,
-        'task': update,
-    }
-}
