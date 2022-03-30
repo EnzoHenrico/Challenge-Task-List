@@ -2,7 +2,9 @@
   "name": "task_table",
   "version": "1.0.0",
   "description": "",
-  "main": "crud.js",
+  "main": "./src/index.js",
+  "preferGlobal": true,
+  "bin": "./models/commands.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src",
