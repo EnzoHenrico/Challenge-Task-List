@@ -1,64 +1,66 @@
 // imports
 const Data = require("../models/db_data.js");
-const Table = require('../node_modules/tty-table');
 
+class tableParams {
 
-// ↓ TABLE HEADER ↓
-let header = [{
+    // ↓ TABLE HEADER ↓
+    createHeader() {
 
-    value: "ID",
-    headerColor: "cyan",
-    align: "left",
+        const header = [{
 
-},
-{
+            value: "ID",
+            headerColor: "white",
 
-    value: "Task",
-    headerColor: "cyan",
-    align: "left",
+        },
+        {
 
-},
-{
+            value: "Task",
+        },
+        {
 
-    value: "Created",
-    headerColor: "cyan",
-    align: "left",
-},
-{
+            value: "Created",
+        },
+        {
 
-    value: "Status",
-    headerColor: "cyan",
-    align: "left",
-},
-{
+            value: "Status",
+        },
+        {
 
-    value: "Priority",
-    headerColor: "cyan",
-    align: "left",
-},
-]
+            value: "Priority",
+        },
+        ];
 
+        return header
 
-// ↓ TABLE ROWS ↓
-const rows = [{
+    }
 
-ID: 1,//Data.id
-Task: 'Dinner',//Data.description
-Created: '10/02/2022',//Data.date
-Status: 'pendent',//Data.status
-Priority: 'High',//Data.priority
+    // ↓ TABLE ROWS ↓
+    createRows() {
 
-}]
+        const rows = [{
 
-// ↓  TABLE OPTIONS ↓
-const options = {
+            ID: 1,
+            Task: 'Dinner',
+            Created: '10/02/2022',
+            Status: 'pendent',
+            Priority: 'High',
 
-    borderStyle: "solid",
-    truncate: "..."
-};
+        }]
 
+        return rows
+    }
 
-// Construct table
-const outTable = Table(header, rows, options).render();
+    // ↓  TABLE OPTIONS ↓
+    createOptions() {
 
-exports.modules = outTable;
+        const options = {
+
+            borderStyle: "solid",
+            truncate: "..."
+        };
+
+        return options
+    }
+}
+
+exports.Params = tableParams;

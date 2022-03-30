@@ -1,13 +1,12 @@
 // Imports
-const {DB_CONNECTION} = require('./');
+const { DB_CONNECTION } = require('./');
 const Data = require("../models/db_data.js");
 const messages = require("../models/messages.js")
 
-    class Run {
+class Run {
 
-
-        // Register new task on table
-        newTask(description, priority){
+    // Register new task on table
+    newTask(description, priority) {
 
         Data.create(task).then((task) => {
 
@@ -18,19 +17,19 @@ const messages = require("../models/messages.js")
 
 
     // List all or only pendent tasks 
-    listTask(task, option){
+    listTask(task, option) {
 
         // Make case insensitive
-        const search  = new RegExp(task, 'i')   
+        const search = new RegExp(task, 'i')
 
         // List all or pendent
-        if (option == 'all'){
-        
+        if (option == 'all') {
+
             return console.log("showing all tasks")
         }
-        if (option == 'pendents'){
-            
-           return console.log("showing pendents")
+        if (option == 'pendents') {
+
+            return console.log("showing pendents")
         }
         else {
 
@@ -40,21 +39,21 @@ const messages = require("../models/messages.js")
 
 
     // List the olddest tasks, one of each priority
-    listPriority(data){
+    listPriority(data) {
 
 
 
     }
 
     // Cheange task status 
-    settStatus(status){
+    settStatus(status) {
 
 
 
     }
 
     // Delete task by id
-    deleteTask(data){
+    deleteTask(data) {
 
 
 
