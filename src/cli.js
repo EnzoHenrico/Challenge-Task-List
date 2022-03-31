@@ -9,7 +9,7 @@ class tableParams {
         const header = [{
 
             value: "ID",
-            headerColor: "white",
+            color: "green",
 
         },
         {
@@ -27,6 +27,7 @@ class tableParams {
         {
 
             value: "Priority",
+            color: "red",
         },
         ];
 
@@ -56,7 +57,8 @@ class tableParams {
         const options = {
 
             borderStyle: "solid",
-            truncate: "..."
+            borderColor: "green",
+            truncate: "...",
         };
 
         return options
