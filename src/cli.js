@@ -3,6 +3,37 @@ const Data = require("../models/db_data.js").default;
 
 class tableParams {
 
+    // ↓ TABLE HEADER ↓
+    createHeader() {
+
+        const header = [{
+
+            value: "ID",
+            color: "green",
+
+        },
+        {
+
+            value: "Task",
+        },
+        {
+
+            value: "Created",
+        },
+        {
+
+            value: "Status",
+        },
+        {
+
+            value: "Priority",
+            color: "red",
+        },
+        ];
+
+        return header
+
+    }
     // ↓ TABLE ROWS ↓
     createRows(info) {
 
@@ -47,7 +78,8 @@ class tableParams {
         const options = {
 
             borderStyle: "solid",
-            truncate: "..."
+            borderColor: "green",
+            truncate: "...",
         };
 
         return options
