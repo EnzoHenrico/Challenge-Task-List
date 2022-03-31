@@ -18,13 +18,19 @@ const addQuestions =[
         name: 'priority',
         message: 'Tasks priority level: '
 
+    },
+    {
+        type: 'input',
+        name: 'id',
+        message: 'Task id: '
+
     }]
 
 const listQuestions = [
 {
     type: 'input',
     name: 'listOption',
-    message: 'list option'
+    message: 'list all?'
 
 }]
 
@@ -35,7 +41,7 @@ program
     .version('1.0.0')
 
 
-// Sett commands with Commander
+// Add a task on DB
  program
     .command('add')
     .alias('a')
@@ -44,6 +50,7 @@ program
         prompt(addQuestions).then(answers => newTask(answers));
     })
 
+// Find data on DB
     program
     .command('list')
     .alias('l')
