@@ -1,26 +1,31 @@
 // Imports
 const Table = require('tty-table');
 const mongoose = require('mongoose');
-const { renderTable } = require('./cli.js');
 
 // Database connection
 const DB_CONNECTION = mongoose.connect('mongodb://127.0.0.1:27017/task_table');
-module.exports = DB_CONNECTION;
+//module.exports = DB_CONNECTION;
 
+// Table constructor
+function renderTable(rows) {
 
-//set table parameters
-// const params = new Params();
-// const header = params.createHeader();
-// const rows = params.createRows();
-// const options = params.createOptions();
+    const options = {
 
-// render and display CLI table
-const render = false;
+        borderStyle: "solid",
+        borderColor: "green",
+        truncate: "...",
+    }
 
-if (render) {
+    const header = [
+        { value: "ID", headerColor: "white" },
+        { value: "Description" },
+        { value: "Created" },
+        { value: "Status" },
+        { value: "Priority" }]
 
-    const response = renderTable()
+    const out = Table(header, rows, options).render()
 
-    console.log(response)
+    return out
+}
 
-};
+module.exports = { DB_CONNECTION, renderTable };

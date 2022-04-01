@@ -12,8 +12,6 @@ const messages = {
         invalidCmd: "Invalid Command! To show valid entrys, please type: '--help'",
     },
 
-    added: `\n-> Sucessfull Added!\n-> ID: ${values.ID}\n-> Task: ${values.Task}\n-> Priority: ${values.Priority}\n-> Date: ${values.Created}\n`,
-
     deleted: "Task was deleted with succes!"
 };
 

@@ -4,10 +4,10 @@ const mongoose = require("mongoose");
 const taskSchema = new mongoose.Schema({
 
     ID: Number,
-    Created: String,
+    Created: Date,
     Status: String,
     Priority: String,
-    Task: String,
+    Description: String,
 
 });
 
