@@ -1,89 +1,26 @@
 // imports
-const Data = require("../models/db_data.js").default;
+const Table = require('tty-table');
 
-class tableParams {
+// Table format
+function renderTable(rows) {
 
-    // ↓ TABLE HEADER ↓
-    createHeader() {
+    const options = {
 
-        const header = [{
-
-            value: "ID",
-            color: "green",
-
-        },
-        {
-
-            value: "Task",
-        },
-        {
-
-            value: "Created",
-        },
-        {
-
-            value: "Status",
-        },
-        {
-
-            value: "Priority",
-            color: "red",
-        },
-        ];
-
-        return header
-
-    }
-    // ↓ TABLE ROWS ↓
-    createRows(info) {
-
-        const rows = [{
-
-            ID: 1,
-            Task: 'Dinner',
-            Created: '10/02/2022',
-            Status: 'pendent',
-            Priority: 'High',
-
-        }]
-
-        // {
-        //     "_id": {
-        //         "$oid": "6245aea99242e6e901b8f812"
-        //     },
-        //     "date": {
-        //         "$date": "2022-03-31T13:37:45.000Z"
-        //     },
-        //     "id": "3",
-        //     "priority": "medium",
-        //     "description": "task3",
-        //     "__v": 0
-        // }
-
-        return rows
+        borderStyle: "solid",
+        borderColor: "green",
+        truncate: "...",
     }
 
-    // ↓ TABLE HEADER ↓
-    createHeader() {
+    const header = [
+        { value: "ID", headerColor: "white" },
+        { value: "Task" },
+        { value: "Created" },
+        { value: "Status" },
+        { value: "Priority" }]
 
-        const header = [{value: "ID",headerColor: "white",},
-        {value: "Task"},{value: "Created"},{value: "Status"},{value: "Priority"}];
+    const out = Table(header, rows, options).render()
 
-        return header
-    }
-
-    // ↓  TABLE OPTIONS ↓
-    createOptions() {
-
-        const options = {
-
-            borderStyle: "solid",
-            borderColor: "green",
-            truncate: "...",
-        };
-
-        return options
-    }
+    return out
 }
 
-exports.Params = tableParams;
+module.exports = { renderTable };

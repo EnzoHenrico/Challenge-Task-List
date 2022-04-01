@@ -1,14 +1,14 @@
-const mongoose = require("../node_modules/mongoose");
+const mongoose = require("mongoose");
 
 // Create DB data model
 const taskSchema = new mongoose.Schema({
-    
-    id: Number,
-    date: Date,
-    dateString: String,
-    status: Boolean,
-    priority: String, 
-    description: String,
+
+    ID: Number,
+    Created: String,
+    Status: String,
+    Priority: String,
+    Task: String,
+
 });
 
 // Create DB Collection and set object model

@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 // Imports
-const { newTask, listTask } = require('../src/functions.js');
+const { newTask, listTask, deleteTask } = require('../src/functions.js');
 const { Command } = require('commander');
 const { prompt } = require('inquirer')
 
 const program = new Command();
 
-const addQuestions =[
+const addQuestions = [
     {
         type: 'input',
         name: 'description',
@@ -18,21 +18,24 @@ const addQuestions =[
         name: 'priority',
         message: 'Tasks priority level: '
 
-    },
-    {
-        type: 'input',
-        name: 'id',
-        message: 'Task id: '
-
     }]
 
 const listQuestions = [
-{
-    type: 'input',
-    name: 'listOption',
-    message: 'list all?'
+    {
+        type: 'input',
+        name: 'listOption',
+        message: 'list all?'
 
-}]
+    }]
+
+const deleteQuestion = [
+    {
+        type: 'input',
+        name: 'deleteOption',
+        message: 'Which task do you want delete? '
+
+    }]
+
 
 // Commander props
 program
@@ -42,21 +45,30 @@ program
 
 
 // Add a task on DB
- program
+program
     .command('add')
     .alias('a')
     .description('Add a new task!')
-    .action(()=>{
-        prompt(addQuestions).then(answers => newTask(answers));
+    .action(() => {
+        prompt(addQuestions).then(newTask);
     })
 
 // Find data on DB
-    program
+program
     .command('list')
     .alias('l')
     .description('list tasks')
-    .action(()=>{
-        prompt(listQuestions).then(answers => listTask(answers));
-    });
+    .action(() => listTask());
+
+//.action(() => prompt(listQuestions).then(answers => listTask(answers)));
+
+// Delete by ID
+program
+    .command('delete')
+    .alias('d')
+    .description('Delete task by ID')
+    .action(() => {
+        prompt(deleteQuestion).then(deleteTask);
+    })
 
 program.parse(process.argv);

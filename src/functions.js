@@ -1,5 +1,8 @@
 // Imports
-const { DB_CONNECTION } = require('./');
+require('./index.js');
+require('tty-table');
+const message = require('../models/messages.js')
+const { renderTable } = require('./cli.js')
 const DataBase = require("../models/db_data.js");
 
 
@@ -7,59 +10,67 @@ const DataBase = require("../models/db_data.js");
 async function newTask(answers) {
 
     // Setta o padrão de Data e ID
-    const autoIncrement = info => {
-        let nowDate = new Date()
-        let date = (day, month, year)=>{
-        
-            day = nowDate.getDay()
-            month = nowDate.getMonth()
-            year = nowDate.getFullYear()
-    
-            return `${day}/${month}/${year}`
-        }
-    return info = {
-            id: answers.id,
-            dateStr: date(),
-        }    
+    const dateString = () => {
+
+        let date = new Date()
+        return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`
     }
 
-    let newId = autoIncrement().id;
-    let dateStr = autoIncrement().dateStr;
-    let task = answers.description;
-    let level = answers.priority;
-    
+    let ID = await DataBase.find().count() + 1
+
     try {
+
         // Inserção no banco de dados
-        const insert = await DataBase.create({
-            id: newId,
-            dateString: dateStr,
-            description: task, 
-            priority: level,
-            status: false
-        });
-        
-        console.log(`\n-> Sucessfull Added!\n-> ID: ${newId}\n-> Task: ${task}\n-> Priority: ${level}\n-> Date: ${dateStr}\n`);                  
-    } 
+        const values = {
+            ID,
+            Task: answers.description,
+            Priority: answers.priority,
+            Created: dateString(),
+            Status: "Pendent"
+        }
+        await DataBase.create(values);
+
+        console.log(message.added)
+    }
     catch (error) {
-        
-        console.log(error.message);
-    }   
+
+        console.log("add: " + error.message)
+    }
 }
 
 
 // List all or only pendent tasks 
-async function listTask(option) {
-   
-    try{
-        const findData = await DataBase.find()
-        .then(data => {
-            console.info(data)
-        })
-        
-    } catch (error){
+async function listTask() {
 
-        console.log(error)
+    try {
+
+        const data = await DataBase.find({}, {
+            _id: 0,
+            ID: 1,
+            Task: 1,
+            Priority: 1,
+            Created: 1,
+            Status: 1
+        });
+        console.log(renderTable(data))
+    } catch (error) {
+
+        console.log("list: " + error)
     }
+}
+
+// Delete task by id
+async function deleteTask(id) {
+
+    try {
+
+        await DataBase.deleteOne({ ID: id });
+    } catch (error) {
+
+        console.log("remove: " + error)
+    }
+
+    console.log(message.deleted)
 }
 
 // List the olddest tasks, one of each priority
@@ -70,23 +81,11 @@ function listPriority(data) {
 }
 
 // Cheange task status 
-function settStatus(status) {
+function completTask(status) {
 
 
 
 }
 
-// Delete task by id
-function  deleteTask(data) {
 
-
-
-}
-
-// render table interface
-function renderTable(){
-
-
-}
-
-module.exports = {newTask, listTask}
+module.exports = { newTask, listTask, deleteTask };
