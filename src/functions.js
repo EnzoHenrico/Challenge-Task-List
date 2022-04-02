@@ -19,7 +19,6 @@ async function newTask(answers) {
             Status: "Pendent"
         }
         await DataBase.create(values);
-
         console.log(`\n-> Sucessfull Added!\n-> Task: ${values.Description}\n-> Priority: ${values.Priority}\n-> Date: ${values.Created}\n`);
     }
     catch (error) {
@@ -32,20 +31,15 @@ async function newTask(answers) {
 async function listTask(all) {
 
     try {
+        const setFilters = all ? {} : { Status: 'Pendent' }
+        let response, data
 
-        let data
+        response = await DataBase.find(setFilters, { _id: 0, ID: 1, Description: 1, Priority: 1, Created: 1, Status: 1 })
+        data = response.map((table) => {
 
-        if(all){
+            return { ...table._doc, Created: timeElapsed(table.Created) }
+        })
 
-            data = await DataBase.find({}, {_id: 0, ID: 1, Description: 1, Priority: 1, Created: 1, Status: 1})
-            console.log('-> Listing All!')
-        }
-        else{
-
-            data = await DataBase.find({Status: 'Pendent'}, {_id: 0, ID: 1, Description: 1, Priority: 1, Created: 1, Status: 1})
-            console.log('-> Listing Undone tasks')
-        }
-        
         console.log(renderTable(data))
     } catch (error) {
 
@@ -59,9 +53,9 @@ async function deleteTask(itemID) {
     try {
 
         let id = Number(itemID.ID)
-        
+
         await DataBase.deleteOne({ ID: id })
-        updateIDs()        
+        updateIDs()
 
     } catch (error) {
 
@@ -74,36 +68,86 @@ async function deleteTask(itemID) {
 
 // Cheange task status by ID
 async function changeStatus(itemid) {
-    
+
     let id = Number(itemid.ID)
-    
+
     try {
 
-       await DataBase.updateOne({ID: id}, {Status: 'Done'})
+        await DataBase.updateOne({ ID: id }, { Status: 'Done' })
     } catch (error) {
-        
+
         console.log("Change Status: " + error)
     }
     console.log("-> Task: " + id + " is done!")
 }
 
 // List the olddest tasks, one of each priority
-function listPriority(data) {
+async function listPriority() {
 
+    const order = ['high', 'medium', 'low']
 
+    response = await DataBase.find({ Status: 'Pendent' }, { _id: 0, ID: 1, Description: 1, Priority: 1, Created: 1, Status: 1 })
+    data = response.map((table) => {
 
+        return { ...table._doc, Created: timeElapsed(table.Created) }
+    })
+
+    console.log('listo!')
+    data = data.sort((a, b) => {
+
+        let positionA = order.indexOf(a.Priority)
+        let positionB = order.indexOf(b.Priority)
+
+        return positionA - positionB
+    })
+
+    console.log(renderTable(data))
 }
+
 
 // Intern: Update IDs in order
-async function updateIDs(){
-    
+async function updateIDs() {
+
     let count = 1
-    const updateID = await DataBase.find({}, {_id: 1, ID: 1,});   
-    
-    for (let index of updateID){
-        if (index.ID != i) await DataBase.updateOne({_id: index._id}, {ID: count}); i++
+    const updateID = await DataBase.find({}, { _id: 1, ID: 1, });
+
+    for (let index of updateID) {
+        if (index.ID != count) await DataBase.updateOne({ _id: index._id }, { ID: count }); count++
     }
-    console.log(updateID)    
+    console.log(updateID)
 }
 
-module.exports = { newTask, listTask, deleteTask, changeStatus };
+// Intern: Sett time elaspsed
+function timeElapsed(created) {
+
+    const date = new Date();
+
+    let dateBefore = Date.parse(created)
+    let dateNow = date.getTime()
+
+    let minutes = Math.ceil((dateNow - dateBefore) / 60000)
+    let hours = Math.ceil(minutes / 60)
+    let days = Math.ceil(hours / 24)
+
+    if (minutes < 59) {
+
+        return minutes + "min"
+    }
+    else if (minutes > 59 && hours <= 23) {
+
+        return hours + "h"
+    }
+    else if (days <= 30) {
+
+        return days + "d"
+    }
+    else {
+
+        return Math.ceil(days / 30) + " mounths"
+    }
+
+
+}
+
+
+module.exports = { newTask, listTask, deleteTask, changeStatus, listPriority };
