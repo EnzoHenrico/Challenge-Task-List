@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Imports
-const { newTask, listTask, deleteTask, changeStatus } = require('../src/functions.js');
+const { newTask, listTask, deleteTask, changeStatus, listPriority } = require('../src/functions.js');
 const { Command } = require('commander');
 const { prompt } = require('inquirer');
 
@@ -15,9 +15,10 @@ const addQuestions = [
 
     },
     {
-        type: 'input',
+        type: 'list',
         name: 'Priority',
-        message: 'Tasks priority level: '
+        message: 'Tasks priority level: ',
+        choices: ['low', 'medium', 'high'],
 
     }];
 
@@ -44,21 +45,28 @@ program // Info about the program
     .description('CLI table with tasks')
     .version('1.0.0');
 
-    
+
 // Find tasks in DB and render table
 
 // List undone Tasks
-const list = program 
+const list = program
 
     .command('list')
     .alias('l')
     .description('list undone tasks')
     .action(() => listTask(false));
-        // list all tasks
-        list
-        .command('all')
-        .description('list all tasks')
-        .action(() => listTask(true));
+
+// list all tasks
+list
+    .command('all')
+    .description('list all tasks')
+    .action(() => listTask(true));
+
+// lsit priority
+list
+    .command('priority')
+    .description('list priority')
+    .action(() => listPriority());
 
 // Add a task on DB
 program
