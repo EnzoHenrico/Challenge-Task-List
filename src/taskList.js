@@ -8,10 +8,12 @@ const DataBase = require("../models/db_data.js");
 async function listTask(all) {
 
     try {
-        const setFilters = all ? {} : { Status: 'Pendent' }
+        const setFilters = all ? {} : { Status: "Pendent" }
         let response, data
 
         response = await DataBase.find(setFilters, { _id: 0, ID: 1, Description: 1, Priority: 1, Created: 1, Status: 1 })
+
+        // Sett time elapsed format in each object
         data = response.map((table) => {
 
             return { ...table._doc, Created: timeElapsed(table.Created) }
@@ -26,27 +28,28 @@ async function listTask(all) {
 
 // List the olddest tasks, one of each priority
 async function listPriority() {
-
-    const order = ['high', 'medium', 'low']
-    let data, priority
-
-    response = await DataBase.find({ Status: 'Pendent' }, { _id: 0, ID: 1, Description: 1, Priority: 1, Created: 1, Status: 1 })
     
-    // need to list just one of each priority 
+    let data, low, medium, high
+    let prioritys = []
+    
+    response = await DataBase.find({ Status: 'Pendent' }, { _id: 0, ID: 1, Description: 1, Priority: 1, Created: 1, Status: 1 })
+
+    // Sett time elapsed format in each object
     data = response.map((table) => {
 
         return { ...table._doc, Created: timeElapsed(table.Created) }
     })
+    
+    low = data.find(obj => obj.Priority == 'low')
+    medium = data.find(obj => obj.Priority == 'medium')
+    high = data.find(obj => obj.Priority == 'high')
 
-    console.log('listado por prioridade!')
-    data = data.sort((a, b) => {
+    if(high) prioritys.push(high)
+    if(medium) prioritys.push(medium)
+    if(low) prioritys.push(low)
 
-        let positionA = order.indexOf(a.Priority)
-        let positionB = order.indexOf(b.Priority)
-
-        return positionA - positionB
-    })
-
-    console.log(renderTable(data))
+    console.log(renderTable(prioritys))
 }
+
+
 module.exports = { listTask, listPriority };

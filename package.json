@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^9.1.0",
+    "commander": "^2.20.3",
     "git": "^0.1.5",
     "inquirer": "^8.2.2",
     "mongoose": "^6.2.9",

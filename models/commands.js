@@ -46,27 +46,29 @@ const completeQuestion = [
 program // Info about the program
     .name('task-table')
     .description('CLI table with tasks')
-    .version('1.0.0')
-    .action(()=> {
-        console.log('Welcome to Task Table\n')
-        prompt()
-    });
-
+    .version('1.0.0');
 
 // Find tasks in DB and render table
-
 // List undone Tasks
 program
     .command('list')
-    .alias('l')
     .description('list undone tasks')
-    .action(() => listTask(false))
-    // list all tasks
-    .option('-a, --all', 'list all tasks')
-    .action(() => listTask(true))
-    // list priority tasks
-    .option('-p, --priority', 'list pioritarty tasks')
-    .action(() => listPriority())
+    .alias('l')
+    .action((cmd)=> cmd ? '' : listTask(false))
+    .option('-p, --pri', 'list p')
+    .action((cmd)=> cmd.pri ? listPriority(): '')
+// list all tasks
+    program
+        .command('list-all')
+        .description('list all tasks')
+        .alias('a')
+        .action(()=> listTask(true));
+ // list priority tasks
+    program
+        .command('list-priority')
+        .description('list piority')
+        .alias('p')
+        .action(()=> listPriority());
 
 // Add a task on DB
 program
