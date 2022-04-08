@@ -42,21 +42,17 @@ const completeQuestion = [
     }]; 
 
 // Commander Atribuitions
-
-// Options 
-
-
 program // Info about the program
     .name('task_table')
     .description('CLI table with tasks')
     .version('1.0.0');
+    
 
 // Find tasks in DB and render table
 program
     // List undone Tasks
     .command('list')
     .description('List undone, priority or all tasks')
-    .action((cmd)=> cmd ? program.help(): '')
     .option('-u, --undone', 'list undone tasks')
     .action((cmd)=> cmd.undone ? listTask(false) : '')
     // Priority option
