@@ -11,16 +11,17 @@ function renderTable(rows) {
     const options = {
 
         borderStyle: "solid",
-        borderColor: "green",
+        borderColor: "white",
+        headerColor: "cyan",
         truncate: "...",
     }
 
     const header = [
-        { value: "ID", headerColor: "white" },
+        { value: "ID", headerColor: "yellow", color: "yellow" },
         { value: "Description" },
         { value: "Created" },
         { value: "Status" },
-        { value: "Priority" }]
+        { value: "Priority", headerColor: "red" }]
 
     const out = Table(header, rows, options).render()
 
