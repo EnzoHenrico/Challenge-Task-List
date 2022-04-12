@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Imports
-const { newTask, listTask, deleteTask, changeStatus, listPriority } = require('../src/functions.js');
+const { newTask, listTask, deleteTask, changeStatus, listPriority, initalInfos } = require('../src/functions.js');
 const { Command } = require('commander');
 const { prompt } = require('inquirer');
 
@@ -43,7 +43,8 @@ const completeQuestion = [
 program // Info about the program
     .name('task-table')
     .description('CLI table with tasks')
-    .version('1.0.0');
+    .version('1.0.0')
+    .action(() => initalInfos())
 
 
 // Find tasks in DB and render table

@@ -105,6 +105,23 @@ async function listPriority() {
 }
 
 
+// Initial interface with command infos
+function initalInfos() {
+
+    let message =
+        `---- Welcome to the Task Table ---- 
+    Use can this commands here:
+    -> "list" to show the table with pendent tasks
+    -> "list all" to show pendent and done tasks
+    -> "list priority" to show the oldest pendent tasks
+    -> "add" to add a new task to the table
+    -> "complete" to mark a pendent task as done
+    -> "delete" to delete a task`
+
+    console.log(message)
+
+}
+
 // Intern: Update IDs in order
 async function updateIDs() {
 
@@ -145,9 +162,7 @@ function timeElapsed(created) {
 
         return Math.ceil(days / 30) + " mounths"
     }
-
-
 }
 
 
-module.exports = { newTask, listTask, deleteTask, changeStatus, listPriority };
+module.exports = { newTask, listTask, deleteTask, changeStatus, listPriority, initalInfos };

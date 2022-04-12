@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 
 // Database connection
 const DB_CONNECTION = mongoose.connect('mongodb://127.0.0.1:27017/task_table');
-//module.exports = DB_CONNECTION;
 
 // Table constructor
 function renderTable(rows) {
@@ -28,4 +27,4 @@ function renderTable(rows) {
     return out
 }
 
-module.exports = { DB_CONNECTION, renderTable };
+module.exports = { renderTable };
