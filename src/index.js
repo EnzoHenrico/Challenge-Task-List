@@ -1,31 +1,31 @@
-// Imports
-const Table = require('tty-table');
-const mongoose = require('mongoose');
+#!/usr/bin/env node
+import Table from 'tty-table';
+import dotenv from 'dotenv';
+// import { Command } from 'commander';
 
-// Database connection
-const DB_CONNECTION = mongoose.connect('mongodb://127.0.0.1:27017/task_table');
+// import inquirer from 'inquirer';
+import Database from './models/database/connection.js';
+
+dotenv.config();
+
+await Database;
 
 // Table constructor
-function renderTable(rows) {
-
-    const options = {
-
-        borderStyle: "solid",
-        borderColor: "white",
-        headerColor: "cyan",
-        truncate: "...",
-    }
-
-    const header = [
-        { value: "ID", headerColor: "yellow", color: "yellow" },
-        { value: "Description" },
-        { value: "Created" },
-        { value: "Status" },
-        { value: "Priority", headerColor: "red" }]
-
-    const out = Table(header, rows, options).render()
-
-    return out
+function RenderTable(rows) {
+  const options = {
+    borderStyle: "solid",
+    borderColor: "white",
+    headerColor: "cyan",
+    truncate: "...",
+  };
+  const header = [
+    { value: "ID", headerColor: "yellow", color: "yellow" },
+    { value: "Description" },
+    { value: "Created" },
+    { value: "Status" },
+    { value: "Priority", headerColor: "red" }
+  ];
+  return Table(header, rows, options).render();
 }
 
-module.exports = { renderTable };
+export default RenderTable;
